@@ -134,7 +134,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherS
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite2, location2) {
-    game.over(true, effects.smiles)
+    currentlevel += 1
+    startlevel()
 })
 function startlevel () {
     hopsandpows = sprites.create(img`
@@ -156,7 +157,17 @@ function startlevel () {
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Player)
     controller.moveSprite(hopsandpows, 100, 0)
-    tiles.setCurrentTilemap(tilemap`level1`)
+    if (currentlevel == 0) {
+        tiles.setCurrentTilemap(tilemap`level1`)
+    } else if (currentlevel == 1) {
+        tiles.setCurrentTilemap(tilemap`level3`)
+    } else if (currentlevel == 2) {
+        tiles.setCurrentTilemap(tilemap`level2`)
+    } else if (currentlevel == 3) {
+        tiles.setCurrentTilemap(tilemap`level4`)
+    } else {
+        game.over(true, effects.smiles)
+    }
     tiles.placeOnRandomTile(hopsandpows, assets.tile`myTile4`)
     for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
         tiles.setTileAt(value, assets.tile`transparency16`)
@@ -410,6 +421,7 @@ let flower: Sprite = null
 let coin: Sprite = null
 let hopsandpows: Sprite = null
 let bee: Sprite = null
+let currentlevel = 0
 scene.setBackgroundColor(9)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -533,6 +545,7 @@ scene.setBackgroundImage(img`
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     `)
+currentlevel = 0
 startlevel()
 game.onUpdate(function () {
     hopsandpows.setImage(img`
