@@ -154,6 +154,8 @@ function startlevel () {
         tiles.setCurrentTilemap(tilemap`level2`)
     } else if (currentlevel == 3) {
         tiles.setCurrentTilemap(tilemap`level4`)
+    } else if (currentlevel == 4) {
+        tiles.setCurrentTilemap(tilemap`level`)
     } else {
         game.over(true, effects.smiles)
     }
@@ -598,7 +600,7 @@ hopsandpows = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
 controller.moveSprite(hopsandpows, 80, 0)
-currentlevel = 3
+currentlevel = 0
 hopsandpows.setFlag(SpriteFlag.BounceOnWall, false)
 startlevel()
 game.onUpdate(function () {
