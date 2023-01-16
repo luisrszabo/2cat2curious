@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Coin = SpriteKind.create()
     export const Flower = SpriteKind.create()
+    export const Fireball = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     game.over(false, effects.melt)
@@ -129,6 +130,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherSprite3) {
     info.changeScoreBy(-1)
+    music.smallCrash.play()
     otherSprite3.destroy()
     if (hopsandpows.y < otherSprite3.y) {
         info.changeScoreBy(3)
@@ -407,11 +409,48 @@ function startlevel () {
         tiles.placeOnTile(flower, value22)
         tiles.setTileAt(value22, assets.tile`transparency16`)
     }
+    for (let value22 of tiles.getTilesByType(assets.tile`myTile14`)) {
+        fireball = sprites.create(img`
+            . 3 . . . . . . . . . . . 4 . . 
+            . 3 3 . . . . . . . . . 4 4 . . 
+            . 3 d 3 . . 4 4 . . 4 4 d 4 . . 
+            . . 3 5 3 4 5 5 4 4 d d 4 4 . . 
+            . . 3 d 5 d 1 1 d 5 5 d 4 4 . . 
+            . . 4 5 5 1 1 1 1 5 1 1 5 4 . . 
+            . 4 5 5 5 5 1 1 5 1 1 1 d 4 4 . 
+            . 4 d 5 1 1 5 5 5 1 1 1 5 5 4 . 
+            . 4 4 5 1 1 5 5 5 5 5 d 5 5 4 . 
+            . . 4 3 d 5 5 5 d 5 5 d d d 4 . 
+            . 4 5 5 d 5 5 5 d d d 5 5 4 . . 
+            . 4 5 5 d 3 5 d d 3 d 5 5 4 . . 
+            . 4 4 d d 4 d d d 4 3 d d 4 . . 
+            . . 4 5 4 4 4 4 4 4 4 4 4 . . . 
+            . 4 5 4 . . 4 4 4 . . . 4 4 . . 
+            . 4 4 . . . . . . . . . . 4 4 . 
+            `, SpriteKind.Fireball)
+        tiles.placeOnTile(fireball, value22)
+        tiles.setTileAt(value22, assets.tile`transparency16`)
+        animation.runMovementAnimation(
+        fireball,
+        "c 0 -100 0 100 0 0",
+        2000,
+        true
+        )
+        fireball.startEffect(effects.fire, 500)
+    }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite3, otherSprite) {
     info.changeScoreBy(1)
+    music.baDing.play()
     otherSprite.destroy()
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Fireball, function (sprite3, otherSprite) {
+    info.changeScoreBy(-1)
+    info.changeLifeBy(-1)
+    music.bigCrash.play()
+    otherSprite.destroy()
+})
+let fireball: Sprite = null
 let flower: Sprite = null
 let coin: Sprite = null
 let bee: Sprite = null
@@ -560,6 +599,7 @@ hopsandpows = sprites.create(img`
     `, SpriteKind.Player)
 controller.moveSprite(hopsandpows, 80, 0)
 currentlevel = 3
+hopsandpows.setFlag(SpriteFlag.BounceOnWall, false)
 startlevel()
 game.onUpdate(function () {
     hopsandpows.setImage(img`
@@ -646,28 +686,29 @@ game.onUpdate(function () {
         hopsandpows.vy = 0
         hopsandpows.ay = 0
         hopsandpows.setImage(img`
-            . . . . . . . . . . f . . . . . 
-            . . . . . . . . . f f f . . . . 
+            . . . . . . . . . . f f . . . . 
+            . . . . . . . . . f 7 5 . . . . 
             . . . . . . . . f f f f . . . . 
-            . . . . . . . . f 5 5 f . . . . 
-            . . . . . . . f f f f f f . . . 
-            . . . . . . . . . f f f f f f f 
+            . . . . . . . . . f f f f . f f 
+            . . . . . . . . . f f f f f f . 
             . . . . . . . . . f f f f . . . 
             . . . . . . . . . f f f f f f f 
             . . . . . . . . . f f f f . . . 
-            . . . . . . . . . f f f f . . . 
-            . . . . . . . . . f f f f . . . 
-            . . . . . . . . . f f f f f f f 
+            . . . . . . f . . f f f f . . . 
+            . . . . f f . f . f f f f . . . 
+            . . . . f . . . . f f f f . f f 
+            . . . . f . . . . f f f f f f . 
             . . . . . f . . . f f f f . . . 
-            . . . . . f f f . f f f f f f f 
-            . . . . . . . f f f . . . . . . 
+            . . . . . . f f f f f f f f f f 
+            . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `)
     } else {
         hopsandpows.ay = 350
     }
-    if (hopsandpows.vx < 0) {
+    if (hopsandpows.vx < 0 || hopsandpows.isHittingTile(CollisionDirection.Left)) {
         hopsandpows.image.flipX()
+        hopsandpows.setImage(hopsandpows.image)
     }
 })
 forever(function () {
