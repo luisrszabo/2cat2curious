@@ -159,7 +159,6 @@ function startlevel () {
     for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
-    hopsandpows.ay = 350
     scene.cameraFollowSprite(hopsandpows)
     info.setLife(7)
     for (let value of sprites.allOfKind(SpriteKind.Coin)) {
@@ -600,6 +599,7 @@ game.onUpdate(function () {
             . f . f . . . . . . . . . . . . 
             . f . f . . . . . . . . . . . . 
             `)
+        music.footstep.play()
     } else if (hopsandpows.vy > 0) {
         hopsandpows.setImage(img`
             . . . . . . . . . . . . . . . . 
@@ -638,8 +638,33 @@ game.onUpdate(function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `)
+        music.footstep.play()
     } else {
     	
+    }
+    if ((hopsandpows.isHittingTile(CollisionDirection.Right) || hopsandpows.isHittingTile(CollisionDirection.Left)) && hopsandpows.vy >= 0) {
+        hopsandpows.vy = 0
+        hopsandpows.ay = 0
+        hopsandpows.setImage(img`
+            . . . . . . . . . . f . . . . . 
+            . . . . . . . . . f f f . . . . 
+            . . . . . . . . f f f f . . . . 
+            . . . . . . . . f 5 5 f . . . . 
+            . . . . . . . f f f f f f . . . 
+            . . . . . . . . . f f f f f f f 
+            . . . . . . . . . f f f f . . . 
+            . . . . . . . . . f f f f f f f 
+            . . . . . . . . . f f f f . . . 
+            . . . . . . . . . f f f f . . . 
+            . . . . . . . . . f f f f . . . 
+            . . . . . . . . . f f f f f f f 
+            . . . . . f . . . f f f f . . . 
+            . . . . . f f f . f f f f f f f 
+            . . . . . . . f f f . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    } else {
+        hopsandpows.ay = 350
     }
     if (hopsandpows.vx < 0) {
         hopsandpows.image.flipX()
