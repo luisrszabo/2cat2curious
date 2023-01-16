@@ -124,6 +124,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         hopsandpows.vy = -150
     }
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
+    game.over(false, effects.melt)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherSprite3) {
     info.changeScoreBy(-1)
     otherSprite3.destroy()
@@ -133,30 +136,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherS
         info.changeLifeBy(-1)
     }
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite, location) {
+    game.over(false, effects.melt)
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite2, location2) {
     currentlevel += 1
     startlevel()
 })
 function startlevel () {
-    hopsandpows = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . f . . . 
-        . . . . . . . . . . . . f f f . 
-        . . . . . . . . . . . . f f 7 f 
-        f f f f f f f f f f f f f f 5 f 
-        . . . . f f f f f f f f f f f . 
-        . . . . f f f f f f f f f . . . 
-        . . . . f f f f f f f f f . . . 
-        . . . . f . f . . . f . f . . . 
-        . . . . f . f . . . f . f . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-    controller.moveSprite(hopsandpows, 100, 0)
     if (currentlevel == 0) {
         tiles.setCurrentTilemap(tilemap`level1`)
     } else if (currentlevel == 1) {
@@ -172,9 +159,18 @@ function startlevel () {
     for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
-    hopsandpows.ay = 200
+    hopsandpows.ay = 350
     scene.cameraFollowSprite(hopsandpows)
     info.setLife(7)
+    for (let value of sprites.allOfKind(SpriteKind.Coin)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Flower)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        value.destroy()
+    }
     for (let value2 of tiles.getTilesByType(assets.tile`myTile2`)) {
         coin = sprites.create(img`
             . . . . . . . . . . . . . . . . 
@@ -419,9 +415,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite3, otherSp
 })
 let flower: Sprite = null
 let coin: Sprite = null
-let hopsandpows: Sprite = null
 let bee: Sprite = null
 let currentlevel = 0
+let hopsandpows: Sprite = null
 scene.setBackgroundColor(9)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -545,7 +541,26 @@ scene.setBackgroundImage(img`
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     `)
-currentlevel = 0
+hopsandpows = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . f . . . 
+    . . . . . . . . . . . . f f f . 
+    . . . . . . . . . . . . f f 7 f 
+    f f f f f f f f f f f f f f 5 f 
+    . . . . f f f f f f f f f f f . 
+    . . . . f f f f f f f f f . . . 
+    . . . . f f f f f f f f f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+controller.moveSprite(hopsandpows, 80, 0)
+currentlevel = 3
 startlevel()
 game.onUpdate(function () {
     hopsandpows.setImage(img`
@@ -629,4 +644,8 @@ game.onUpdate(function () {
     if (hopsandpows.vx < 0) {
         hopsandpows.image.flipX()
     }
+})
+forever(function () {
+    music.setVolume(20)
+    music.playMelody("E B C5 A B G A F ", 120)
 })
