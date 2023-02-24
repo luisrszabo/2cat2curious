@@ -4,9 +4,8 @@ namespace SpriteKind {
     export const Fireball = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     if (info.life() != 0) {
-        game.setGameOverEffect(false, effects.melt)
-        pause(1000)
         info.changeLifeBy(-1)
         startlevel()
     } else {
@@ -134,9 +133,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sprite3, location3) {
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     if (info.life() != 0) {
-        game.setGameOverEffect(false, effects.melt)
-        pause(1000)
         info.changeLifeBy(-1)
         startlevel()
     } else {
@@ -155,7 +153,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherS
     }
 })
 function startlevel () {
-    info.setLife(info.life())
     if (currentlevel == 0) {
         tiles.setCurrentTilemap(tilemap`level1`)
     } else if (currentlevel == 1) {
@@ -457,9 +454,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Fireball, function (sprite33, ot
     otherSprite4.destroy()
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite2, location2) {
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     if (info.life() != 0) {
-        game.setGameOverEffect(false, effects.melt)
-        pause(1000)
         info.changeLifeBy(-1)
         startlevel()
     } else {
@@ -473,9 +469,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite32, otherS
     otherSprite.destroy()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite22, location22) {
-    game.setGameOverEffect(true, effects.hearts)
-    pause(1000)
-    info.changeLifeBy(1)
+    music.play(music.melodyPlayable(music.magicWand), music.PlaybackMode.UntilDone)
+    info.changeLifeBy(2)
     currentlevel += 1
     startlevel()
 })
