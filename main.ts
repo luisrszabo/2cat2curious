@@ -9,6 +9,7 @@ namespace SpriteKind {
     export const Coin = SpriteKind.create()
     export const Flower = SpriteKind.create()
     export const Fireball = SpriteKind.create()
+    export const Fire = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile0`, function (sprite, location) {
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
@@ -149,8 +150,30 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava1, function (sp
         game.gameOver(false)
     }
 })
+function Game_intro () {
+    game.setDialogFrame(img`
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        f 1 f f f f f f f f f f 1 1 f 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        f 1 f f f f f f f f f f f 1 f 
+        1 f 1 1 1 1 1 1 1 1 1 1 1 f 1 
+        `)
+    game.showLongText("LostCat in the Forest Copyright 2023 ", DialogLayout.Bottom)
+    game.showLongText("Game by Rodrigo,Gabriel and Amanda", DialogLayout.Bottom)
+    game.showLongText("Press A Key to Start", DialogLayout.Bottom)
+}
 function idleCat () {
-    idleLeft = animation.createAnimation(ActionKind.Idle, 500)
+    idleLeft = animation.createAnimation(ActionKind.IdleLeft, 1000)
     animation.attachAnimation(hopsandpows, idleLeft)
     idleLeft.addAnimationFrame(img`
         . . . . . . . . . . . . . . . . 
@@ -170,7 +193,61 @@ function idleCat () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `)
-    idleRight = animation.createAnimation(ActionKind.Idle, 500)
+    idleLeft.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 1 . . . . . . . . . . . . 
+        . 1 1 1 . . . . . . . . . . . . 
+        1 7 1 1 . . . . . . . . . . . . 
+        1 5 1 1 a 1 1 1 1 1 1 1 1 1 1 f 
+        . 1 1 a 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 . 1 . . . 1 . 1 . . . . 
+        . . . f . f . . . f . f . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    idleLeft.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 1 . . . . . . . . . . . . 
+        . 1 1 1 . . . . . . . . . . . . 
+        1 7 1 1 . . . . . . . . . . . . 
+        1 5 1 1 a 1 1 1 1 1 1 1 1 1 1 f 
+        . 1 1 a 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 1 1 1 1 1 1 1 1 . . . . 
+        . . . 1 . 1 . . . 1 . 1 . . . . 
+        . . . f . f . . . f . f . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    idleLeft.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . 1 . . . . . . . . . . . . 
+        . 1 1 1 . . . . . . . . . . . . 
+        1 7 1 1 . . . . . . . . . . . . 
+        1 5 1 1 a 1 1 1 . . . . . . . . 
+        . 1 1 a 1 1 1 1 1 . . . . . . . 
+        . . . 1 1 1 1 1 1 1 . . . . . . 
+        . . . 1 1 1 1 1 1 1 1 . . . . . 
+        . . . 1 1 1 1 1 1 1 1 . . . . . 
+        . . f f 1 1 1 f 1 1 1 1 1 1 f . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    idleRight = animation.createAnimation(ActionKind.Idle, 1000)
     animation.attachAnimation(hopsandpows, idleRight)
     idleRight.addAnimationFrame(img`
         . . . . . . . . . . . . . . . . 
@@ -190,6 +267,60 @@ function idleCat () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `)
+    idleRight.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . . 1 1 1 . 
+        . . . . . . . . . . . . 1 1 7 1 
+        f 1 1 1 1 1 1 1 1 1 1 a 1 1 5 1 
+        . . . . 1 1 1 1 1 1 1 1 a 1 1 . 
+        . . . . 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 1 . 1 . . . 1 . 1 . . . 
+        . . . . f . f . . . f . f . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    idleRight.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . . 1 1 1 . 
+        . . . . . . . . . . . . 1 1 7 1 
+        f 1 1 1 1 1 1 1 1 1 1 a 1 1 5 1 
+        . . . . 1 1 1 1 1 1 1 1 a 1 1 . 
+        . . . . 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 1 1 1 1 1 1 1 1 1 . . . 
+        . . . . 1 . 1 . . . 1 . 1 . . . 
+        . . . . f . f . . . f . f . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    idleRight.addAnimationFrame(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . 1 . . . 
+        . . . . . . . . . . . . 1 1 1 . 
+        . . . . . . . . . . . . 1 1 7 1 
+        . . . . . . . . 1 1 1 a 1 1 5 1 
+        . . . . . . . 1 1 1 1 1 a 1 1 . 
+        . . . . . . 1 1 1 1 1 1 1 . . . 
+        . . . . . 1 1 1 1 1 1 1 1 . . . 
+        . . . . . 1 1 1 1 1 1 1 1 . . . 
+        . f 1 1 1 1 1 1 f 1 1 1 f f . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherSprite3) {
     info.changeScoreBy(-1)
@@ -201,34 +332,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite5, otherS
         info.changeLifeBy(-1)
     }
 })
-function startlevel () {
-    if (currentlevel == 0) {
-        tiles.setCurrentTilemap(tilemap`level1`)
-    } else if (currentlevel == 1) {
-        tiles.setCurrentTilemap(tilemap`level3`)
-    } else if (currentlevel == 2) {
-        tiles.setCurrentTilemap(tilemap`level2`)
-    } else if (currentlevel == 3) {
-        tiles.setCurrentTilemap(tilemap`level4`)
-    } else if (currentlevel == 4) {
-        tiles.setCurrentTilemap(tilemap`level`)
-    } else {
-        game.over(true, effects.smiles)
-    }
-    tiles.placeOnRandomTile(hopsandpows, assets.tile`myTile4`)
-    for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
-        tiles.setTileAt(value, assets.tile`transparency16`)
-    }
-    scene.cameraFollowSprite(hopsandpows)
-    for (let value2 of sprites.allOfKind(SpriteKind.Coin)) {
-        value2.destroy()
-    }
-    for (let value3 of sprites.allOfKind(SpriteKind.Flower)) {
-        value3.destroy()
-    }
-    for (let value4 of sprites.allOfKind(SpriteKind.Enemy)) {
-        value4.destroy()
-    }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Fire, function (sprite33, otherSprite4) {
+    info.changeScoreBy(-1)
+    info.changeLifeBy(-1)
+    music.bigCrash.play()
+    otherSprite4.destroy()
+})
+function CoinAnimation () {
     for (let value22 of tiles.getTilesByType(assets.tile`myTile2`)) {
         coin = sprites.create(img`
             . . . . . . . . . . . . . . . . 
@@ -270,23 +380,6 @@ function startlevel () {
             `,img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
-            . . . . . f f f f f . . . . . . 
-            . . . . f 5 5 5 5 5 f . . . . . 
-            . . . f 5 4 4 4 4 4 5 f . . . . 
-            . . f 5 5 5 5 5 5 5 4 5 f . . . 
-            . . f 5 5 5 4 4 4 5 4 5 f . . . 
-            . . f 5 5 5 4 5 5 5 4 5 f . . . 
-            . . f 5 5 5 4 5 5 5 4 5 f . . . 
-            . . f 5 5 5 4 5 5 5 4 5 f . . . 
-            . . f 5 5 5 4 4 4 5 4 5 f . . . 
-            . . f 5 5 5 5 5 5 5 4 5 f . . . 
-            . . . f 5 4 4 4 4 4 5 f . . . . 
-            . . . . f 5 5 5 5 5 f . . . . . 
-            . . . . . f f f f f . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
             . . . . . . f f f . . . . . . . 
             . . . . . f 5 5 5 f . . . . . . 
             . . . . f 5 4 4 4 5 f . . . . . 
@@ -306,23 +399,6 @@ function startlevel () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . f . . . . . . . . 
             . . . . . . f 5 f . . . . . . . 
-            . . . . . f 5 4 5 f . . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . . f 5 4 5 f . . . . . . 
-            . . . . . . f 5 f . . . . . . . 
-            . . . . . . . f . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . f . . . . . . . . 
-            . . . . . . f 5 f . . . . . . . 
             . . . . . . f 4 f . . . . . . . 
             . . . . . . f 5 f . . . . . . . 
             . . . . . f 5 5 5 f . . . . . . 
@@ -366,23 +442,6 @@ function startlevel () {
             . . . . . f 5 5 5 f . . . . . . 
             . . . . . . f 5 f . . . . . . . 
             . . . . . . f 4 f . . . . . . . 
-            . . . . . . f 5 f . . . . . . . 
-            . . . . . . . f . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . f . . . . . . . . 
-            . . . . . . f 5 f . . . . . . . 
-            . . . . . f 5 4 5 f . . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . f 5 5 5 4 5 f . . . . . 
-            . . . . . f 5 4 5 f . . . . . . 
             . . . . . . f 5 f . . . . . . . 
             . . . . . . . f . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -397,28 +456,11 @@ function startlevel () {
             . . . f 5 5 5 4 5 4 5 f . . . . 
             . . . f 5 5 5 4 5 4 5 f . . . . 
             . . . f 5 5 5 4 5 4 5 f . . . . 
-            . . . f 5 5 4 4 5 4 5 f . . . . 
+            . . . f 5 5 4 4 4 4 5 f . . . . 
             . . . f 5 5 5 5 5 4 5 f . . . . 
             . . . . f 5 4 4 4 5 f . . . . . 
             . . . . . f 5 5 5 f . . . . . . 
             . . . . . . f f f . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `,img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . f f f f f . . . . . . 
-            . . . . f 5 5 5 5 5 f . . . . . 
-            . . . f 5 4 4 4 4 4 5 f . . . . 
-            . . f 5 5 5 5 5 5 5 4 5 f . . . 
-            . . f 5 5 5 4 4 4 5 4 5 f . . . 
-            . . f 5 5 5 5 5 4 5 4 5 f . . . 
-            . . f 5 5 5 5 5 4 5 4 5 f . . . 
-            . . f 5 5 5 5 5 4 5 4 5 f . . . 
-            . . f 5 5 5 4 4 4 5 4 5 f . . . 
-            . . f 5 5 5 5 5 5 5 4 5 f . . . 
-            . . . f 5 4 4 4 4 4 5 f . . . . 
-            . . . . f 5 5 5 5 5 f . . . . . 
-            . . . . . f f f f f . . . . . . 
             . . . . . . . . . . . . . . . . 
             `,img`
             . . . . . . . . . . . . . . . . 
@@ -427,10 +469,10 @@ function startlevel () {
             . . . f 5 5 5 5 5 5 5 f . . . . 
             . . f 5 4 4 4 4 4 4 4 5 f . . . 
             . f 5 5 5 5 5 5 5 5 5 4 5 f . . 
-            . f 5 5 5 5 4 4 4 5 5 4 5 f . . 
-            . f 5 5 5 5 5 5 4 5 5 4 5 f . . 
-            . f 5 5 5 5 5 5 4 5 5 4 5 f . . 
-            . f 5 5 5 5 5 5 4 5 5 4 5 f . . 
+            . f 5 5 5 5 4 4 5 5 5 4 5 f . . 
+            . f 5 5 5 5 5 4 5 5 5 4 5 f . . 
+            . f 5 5 5 5 5 4 5 5 5 4 5 f . . 
+            . f 5 5 5 5 5 4 5 5 5 4 5 f . . 
             . f 5 5 5 5 4 4 4 5 5 4 5 f . . 
             . f 5 5 5 5 5 5 5 5 5 4 5 f . . 
             . . f 5 4 4 4 4 4 4 4 5 f . . . 
@@ -444,6 +486,36 @@ function startlevel () {
         tiles.placeOnTile(coin, value22)
         tiles.setTileAt(value22, assets.tile`transparency16`)
     }
+}
+function startlevel () {
+    if (currentlevel == 0) {
+        tiles.setCurrentTilemap(tilemap`level1`)
+    } else if (currentlevel == 1) {
+        tiles.setCurrentTilemap(tilemap`level3`)
+    } else if (currentlevel == 2) {
+        tiles.setCurrentTilemap(tilemap`level2`)
+    } else if (currentlevel == 3) {
+        tiles.setCurrentTilemap(tilemap`level4`)
+    } else if (currentlevel == 4) {
+        tiles.setCurrentTilemap(tilemap`level`)
+    } else {
+        game.over(true, effects.smiles)
+    }
+    tiles.placeOnRandomTile(hopsandpows, assets.tile`myTile4`)
+    for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
+        tiles.setTileAt(value, assets.tile`transparency16`)
+    }
+    scene.cameraFollowSprite(hopsandpows)
+    for (let value2 of sprites.allOfKind(SpriteKind.Coin)) {
+        value2.destroy()
+    }
+    for (let value3 of sprites.allOfKind(SpriteKind.Flower)) {
+        value3.destroy()
+    }
+    for (let value4 of sprites.allOfKind(SpriteKind.Enemy)) {
+        value4.destroy()
+    }
+    CoinAnimation()
     for (let value222 of tiles.getTilesByType(assets.tile`myTile3`)) {
         flower = sprites.create(img`
             . . . . . . . . . . . . . . . . 
@@ -466,27 +538,68 @@ function startlevel () {
         tiles.placeOnTile(flower, value222)
         tiles.setTileAt(value222, assets.tile`transparency16`)
     }
-    for (let value223 of tiles.getTilesByType(assets.tile`myTile14`)) {
-        fireball = sprites.create(img`
-            . 3 . . . . . . . . . . . 4 . . 
-            . 3 3 . . . . . . . . . 4 4 . . 
-            . 3 d 3 . . 4 4 . . 4 4 d 4 . . 
-            . . 3 5 3 4 5 5 4 4 d d 4 4 . . 
-            . . 3 d 5 d 1 1 d 5 5 d 4 4 . . 
-            . . 4 5 5 1 1 1 1 5 1 1 5 4 . . 
-            . 4 5 5 5 5 1 1 5 1 1 1 d 4 4 . 
-            . 4 d 5 1 1 5 5 5 1 1 1 5 5 4 . 
-            . 4 4 5 1 1 5 5 5 5 5 d 5 5 4 . 
-            . . 4 3 d 5 5 5 d 5 5 d d d 4 . 
-            . 4 5 5 d 5 5 5 d d d 5 5 4 . . 
-            . 4 5 5 d 3 5 d d 3 d 5 5 4 . . 
-            . 4 4 d d 4 d d d 4 3 d d 4 . . 
-            . . 4 5 4 4 4 4 4 4 4 4 4 . . . 
-            . 4 5 4 . . 4 4 4 . . . 4 4 . . 
-            . 4 4 . . . . . . . . . . 4 4 . 
-            `, SpriteKind.Fireball)
-        tiles.placeOnTile(fireball, value223)
+    FireBallAnime()
+    FireBallAnime2()
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Fireball, function (sprite33, otherSprite4) {
+    info.changeScoreBy(-1)
+    info.changeLifeBy(-1)
+    music.bigCrash.play()
+    otherSprite4.destroy()
+})
+function FireBallAnime2 () {
+    for (let value223 of tiles.getTilesByType(assets.tile`myTile15`)) {
+        fireball_2 = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . 4 . . . . . 
+            . . . . 2 . . . . 4 4 . . . . . 
+            . . . . 2 4 . . 4 5 4 . . . . . 
+            . . . . . 2 4 d 5 5 4 . . . . . 
+            . . . . . 2 5 5 5 5 4 . . . . . 
+            . . . . . . 2 5 5 5 5 4 . . . . 
+            . . . . . . 2 5 4 2 4 4 . . . . 
+            . . . . . . 4 4 . . 2 4 4 . . . 
+            . . . . . 4 4 . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Fire)
+        tiles.placeOnTile(fireball_2, value223)
         tiles.setTileAt(value223, assets.tile`transparency16`)
+        animation.runMovementAnimation(
+        fireball_2,
+        "c -60 0 60 0 0 0",
+        2000,
+        true
+        )
+        fireball_2.startEffect(effects.ashes, 500)
+    }
+}
+function FireBallAnime () {
+    for (let value2232 of tiles.getTilesByType(assets.tile`myTile14`)) {
+        fireball = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . 4 4 . . . . . . . 
+            . . . . . . 4 5 5 4 . . . . . . 
+            . . . . . . 2 5 5 2 . . . . . . 
+            . . . . . . . 2 2 . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Fireball)
+        tiles.placeOnTile(fireball, value2232)
+        tiles.setTileAt(value2232, assets.tile`transparency16`)
         animation.runMovementAnimation(
         fireball,
         "c 0 -100 0 100 0 0",
@@ -496,12 +609,6 @@ function startlevel () {
         fireball.startEffect(effects.fire, 500)
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Fireball, function (sprite33, otherSprite4) {
-    info.changeScoreBy(-1)
-    info.changeLifeBy(-1)
-    music.bigCrash.play()
-    otherSprite4.destroy()
-})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite2, location2) {
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     if (info.life() != 0) {
@@ -676,6 +783,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite22,
 let walkRight: animation.Animation = null
 let walkLeft: animation.Animation = null
 let fireball: Sprite = null
+let fireball_2: Sprite = null
 let flower: Sprite = null
 let coin: Sprite = null
 let idleRight: animation.Animation = null
@@ -831,6 +939,7 @@ controller.moveSprite(hopsandpows, 80, 0)
 currentlevel = 0
 hopsandpows.setFlag(SpriteFlag.BounceOnWall, false)
 info.setLife(7)
+Game_intro()
 startlevel()
 game.onUpdate(function () {
     if (hopsandpows.vx > 0) {
